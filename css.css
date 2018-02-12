@@ -16,14 +16,14 @@ z-index:-1;
 
 .title {
 	margin-top:50px;
-	font-size: 300%;
+	font-size: 400%;
 	text-align: center;
 	color: #ab3535;
 }
 
 .subtitle {
 	margin-bottom:50px;
-	font-size: 125%;
+	font-size: 225%;
 	text-align: center;
 	color: #ab3535;
 	font-weight: normal;
@@ -57,11 +57,13 @@ tr:nth-child(even) {
 }
 
 a:link, a:visited{
+	font-size: 125%;
 	color: #fff;
 	text-decoration: none;
 }
 
 a:hover{
+	font-size: 125%;
 	color: #ddd;
 	text-decoration: none;
 }

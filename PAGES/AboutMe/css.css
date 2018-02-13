@@ -12,6 +12,11 @@ html {
 	padding: 5px;
 }
 
+p{
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
 .Slide:hover {
 	background-color:#ef4545;
 }

@@ -59,3 +59,15 @@ a.menu:hover{
 	color: #ddd;
 	text-decoration: none;
 }
+
+td{
+	padding: 5px;
+}
+
+tr:nth-child(odd) {
+	background-color: #e83535;
+}
+
+tr:nth-child(even) {
+	background-color: #ef4545;
+}

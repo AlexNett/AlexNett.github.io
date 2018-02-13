@@ -52,7 +52,7 @@ $(function(){
 		}
 	}
 	
-	ball = new Circle(26,window.innerHeight/2,35,10,-10,0.8,1)
+	ball = new Circle(26,window.innerHeight/1.5,40,25,-10,0.8,1)
 	
 	//animate
 	function animate(){

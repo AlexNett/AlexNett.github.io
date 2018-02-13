@@ -1,3 +1,7 @@
+html {
+  overflow-y: scroll;
+}
+
 .Slide {
 	color: white;
 	font-size: 100%;

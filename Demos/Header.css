@@ -1,0 +1,67 @@
+html {
+  overflow-y: scroll;
+}
+
+*{
+	padding: 0;
+	margin: 0;
+	font-family: font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;;
+}
+
+.Slide{
+	background-color: #ffafaf;
+	padding: 3px;
+	color: white;
+	width: 125px;
+	text-align: center;
+}
+
+.Slide:hover{
+	background-color: #e83535;
+}
+
+.SlideIMG{
+	display: none;
+}
+
+.title {
+	margin-top:50px;
+	font-size: 400%;
+	text-align: center;
+	color: #ab3535;
+}
+
+.subtitle {
+	margin-bottom:50px;
+	font-size: 225%;
+	text-align: center;
+	color: #ab3535;
+	font-weight: normal;
+}
+
+hr.menu{
+	padding:2px;
+	background-color: #e83535;
+}
+
+pre.menu{
+	padding: 3px;
+}
+
+.menu {
+	text-align: center;
+	color: #353535;
+	background-color: #e83535;
+}
+
+a.menu:link, a:visited{
+	font-size: 125%;
+	color: #fff;
+	text-decoration: none;
+}
+
+a.menu:hover{
+	font-size: 125%;
+	color: #ddd;
+	text-decoration: none;
+}

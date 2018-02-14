@@ -32,12 +32,12 @@ $(function(){
 		}
 		this.update = function()
 		{
-			if (this.x + r >= window.innerWidth || this.x - r <= 0 || this.y + r >= window.innerHeight || this.y - r <= 0)
+			if (this.x + r >= window.innerWidth || this.x - r <= 0 || this.y + r >= window.innerHeight || this.y - r <= 230)
 			{
 				if (this.x + this.r >= window.innerWidth)	{Vx = -Vx*a; this.x = window.innerWidth - this.r}
 				if (this.x - this.r <= 0)					{Vx = -Vx*a; this.x = 0 + this.r}
 				if (this.y + this.r >= window.innerHeight)	{Vy = -Vy*a; this.y = window.innerHeight - this.r; Vx *= a}
-				if (this.y - this.r <= 0)					{Vy = -Vy*a; this.y = 0 + this.r}
+				if (this.y - this.r <= 230)					{Vy = -Vy*a; this.y = 230 + this.r}
 			}
 			else 											{Vy += g;}
 			this.y += Math.ceil(Vy);

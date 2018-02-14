@@ -5,15 +5,32 @@ html {
 *{
 	padding: 0;
 	margin: 0;
-	font-family: font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;;
+	font-family: Inconsolata;
 }
 
+div.page {
+	margin: 0 auto;
+	left: 50%;
+	border-left: 5px solid #e83535;
+	border-right: 5px solid #e83535;
+	padding: 20px;
+	width: 800px;
+	color: #1d1616;
+	font-size:125%;
+	background-color: #ffcdcd;	
+	box-shadow: 20px 20px #ffe5e5;
+}
+
+
+
 .Slide{
-	background-color: #ffafaf;
+	font-size: 70%;
+	background-color: #fa5757;
 	padding: 3px;
 	color: white;
 	width: 125px;
 	text-align: center;
+	text-shadow: 0px 0px white;
 }
 
 .Slide:hover{
@@ -54,7 +71,7 @@ pre.menu{
 	background-color: #e83535;
 }
 
-a.menu:link, a:visited{
+a.menu:link, a.menu:visited{
 	font-size: 125%;
 	color: #fff;
 	text-decoration: none;

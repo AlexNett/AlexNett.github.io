@@ -10,14 +10,303 @@
 <h5 class="subtitle">[ITA]</h5>
 <br />
 
-<img src="IMG/Red.svg.png" alt="Red" height="42" width="42"></img>
+<div class="page">
 
+<h5 class="sep">Introduzione</h5>
+<p>
+La <em>race condition</em>, anche chiamata <em>race hazard</em>, è un problema che può verificarsi in campo informatico nel <em>multi-threading programming</em> ed è dovuto al tentativo di<em> thread</em> di pari priorità di un programma di eseguire azioni in parallelo.
+In una macchina <em>single-core</em>, le azioni vengono eseguite in sequenza partendo da quella che è stata richiesta per prima (sempre considerando nessuna priorità).
+Partendo da questo presupposto, che succede se due <em>thread</em> vengono creati nello stesso momento e tentano di compiere la semplice azione di 2 stampe?
+Schematizzando, questo è quello che vogliamo dal programma e riportiamo sotto il risultato desiderato:
+</p>
+<table>
+<tbody>
+<tr>
+<th>Time</th>
+<th>Thread1</th>
+<th>Thread2</th>
+</tr>
+<tr>
+<td>1</td>
+<td>Print ID</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Print "|"</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td>Print ID</td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td>Print "|"</td>
+</tr>
+</tbody>
+</table>
+<p class="codeShow" >RESULT: <code>5888 <span style="color: #161d1d">|</span> 6288 <span style="color: #161d1d">|</span></code></p>
+Purtroppo può verificarsi quanto segue:
+<table>
+<tbody>
+<tr>
+<th>Time</th>
+<th>Thread1</th>
+<th>Thread2</th>
+</tr>
+<tr>
+<td>1</td>
+<td>Print ID</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td>Print ID</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Print "|"</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td>Print "|"</td>
+</tr>
+</tbody>
+</table>
+<p class="codeShow" >RESULT: <code>57007000 <span style="color: #161d1d">||</span></code></p>
+<p>
+Come detto in precedenza, la macchina può fare una sola azione alla volta e il compito della macchina è 
+quella di assegnare un tempo ad ogni azione; se tutti e due i <em>thread</em> inviano una richiesta, queste 
+verranno entrambe eseguite: il problema sta nel fatto che l'azione di stampa deve essere assegnata ad un'unità di
+ tempo (ricordando che ad ogni unità di tempo può essere assegnata una sola azione) creando così la possibilità che
+ due thread eseguano i comandi, che dovrebbero essere in successione, in sincrono, in una sorta di competizione ("<em>race</em>") per 
+ essere eseguiti per primi: <em>praticamente come due auto in corsa su una pista con un’unica corsia, dove chi è partito per primo 
+ sarà sempre in testa durante la corsa, ma alla fine l'ultima spingerà fuori i primi prendendo il loro posto al traguardo </em>. 
+ Questa è una grossa semplificazione: 
+in realtà molte altre azioni vengono eseguite nella macchina interferendo con 
+i compiti del programma peggiorando o sistemando questo ritardo...
+</p>
+
+<p class="IMGshow">CODE:</p>
+<img class="SlideIMG" src="IMG/n1.png" alt="code"></img>
+
+<h5 class="sep">Esempio pratico</h5>
+
+<p>
+Spiegato il problema, prendiamo degli esempi pratici dove questo <em>race hazard</em>
+ crea delle vere complicazioni, cioè nei thread con competizione.
+Si dice che un<em> thread</em> è competitivo con un altro quando tutti e due
+ usufruiscono, per il compito dato dal codice, di una stessa zona di memoria lavorando su di essa 
+ ed eseguendo azioni non allo scopo di essere utili al secondo <em>thread</em>.
+Prendiamo ad esempio un programma competitivo che tenta di incrementare una variabile
+ accessibile da entrambi i <em>thread</em> fino a 2; alcuni possibili output sono questi:
+</p>
+
+<table>
+<tbody>
+<tr>
+<th>Time</th>
+<th>Thread1</th>
+<th>Thread2</th>
+<th>*&amp;iConta</th>
+</tr>
+<tr>
+<td>1</td>
+<td>Read</td>
+<td></td>
+<td><span style="color: #ff0000;">0</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Increase</td>
+<td></td>
+<td><span style="color: #ff0000;">0 -&gt; 1</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Write</td>
+<td></td>
+<td><span style="color: #ff0000;">1</span></td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td>Read</td>
+<td><span style="color: #00ff00;">1</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td></td>
+<td>Increase</td>
+<td><span style="color: #00ff00;">1 -&gt; 2</span></td>
+</tr>
+<tr>
+<td>6</td>
+<td></td>
+<td>Write</td>
+<td><span style="color: #00ff00;">2</span></td>
+</tr>
+</tbody>
+</table>
+<table>
+<tbody>
+<tr>
+<th>Time</th>
+<th>Thread1</th>
+<th>Thread2</th>
+<th>*&amp;iConta</th>
+</tr>
+<tr>
+<td>1</td>
+<td>Read</td>
+<td></td>
+<td><span style="color: #ff0000;">0</span></td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td>Read</td>
+<td><span style="color: #00ff00;">0</span></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Increase</td>
+<td></td>
+<td><span style="color: #ff0000;">0 -&gt; 1</span></td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td>Increase</td>
+<td><span style="color: #00ff00;">0 -&gt; 1</span></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Write</td>
+<td></td>
+<td><span style="color: #ff0000;">1</span></td>
+</tr>
+<tr>
+<td>6</td>
+<td></td>
+<td>Write</td>
+<td><span style="color: #00ff00;">1</span></td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Come possiamo notare i <em>thread</em> competono per incrementare la variabile, ma nel secondo output mostrato nell'esempio, dal momento che il secondo thread ha letto un dato sbagliato continuerà ad eseguire l’azione desiderata sulla variabile con valore errato e, infine, scriverà il valore errato nella cella di memoria; il primo <em>thread</em> avrà fatto la stessa cosa, ma dato che è il primo ad essere eseguito possiamo considerarlo come quello che sta facendo bene il suo compito.
+Alla fine il programma ci darà un risultato sbagliato perché stavano competendo in una corsa a chi prima incrementava, quando invece avrebbero dovuto cooperare per arrivare a 2.
+</p>
+<br>
+<p>
+Quindi, scaliamo questo codice dando a 5 <em>thread</em> il compito di fare 1.000.000 di incrementi:
+quando uno dei <em>thread</em> effettua l'azione di lettura, prende un valore e ci lavora, mentre nel frattempo un altro <em>thread</em> farà la stessa cosa ma con un altro valore, forse uguale, forse diverso... Tutti e due incrementeranno il loro valore e faranno un'azione di scrittura nella stessa area di memoria con il proprio valore.
+Infine siamo certi che ci saranno 5 milioni di azioni di scrittura, ma i <em>thread</em>, lavorando semi-indipendentemente dagli altri, causeranno alcune azioni di scrittura che, avendo inizialmente letto un diverso valore, potrebbero sovrascrivere quello che era già stato incrementato con uno di valore più basso.
+</p>
+
+<p class="IMGshow">CODE:</p>
+<img class="SlideIMG" src="IMG/n2.png" alt="code"></img>
+
+<h5 class="sep">Note</h5>
+
+<p>
+Come abbiamo potuto vedere dai programmi sopra riportati, questo concetto
+ di competizione non sta affatto aiutando il programma. Ma facciamo un altro esempio: mettiamo che l’obbiettivo dei <em>thread</em> 
+ non fosse solo quello di incrementare la variabile di 1.000.000 tutti in <em>sync</em>, ma di incrementarla finché la variabile
+ assume il valore 1.000.000 (quindi col risultato finale per forza 1.000.000).
+La domanda è: ma il risultato si raggiunge  più velocemente con un singolo <em>thread</em> o con più <em>thread</em>?
+Verrebbe normale pensare che se più thread lavorano per raggiungere un obbiettivo comune 
+come questo, il lavoro è svolto più velocemente. Riflettendo, però, si è visto che per ogni unità di 
+tempo può essere eseguita una sola azione e se le azioni sono sincronizzate con quelle di un secondo 
+thread può accadere che delle variabili vengano sovrascritte con valori uguali se non più bassi che faranno
+ perdere tempo al programma, dal momento che saranno necessarie
+ più azioni per rimediare al decremento, rendendo nella realtà un solo <em>thread</em> effettivamente più efficiente.
+</p>
+
+<p class="IMGshow">CODE:</p>
+<img class="SlideIMG" src="IMG/n3.png" alt="code"></img>
+
+<p>Effettivamente dando come output di tempo:</p>
+<p class="codeShow" >RESULT: <code>MAIN: 3</code></p>
+<p class="codeShow" >RESULT: <code>THREAD: 8</code></p>
+
+<h5 class="sep">"Fix"</h5>
+
+<p class="IMGshow">CODE:</p>
+<img class="SlideIMG" src="IMG/n4.png" alt="code"></img>
+
+<p class="IMGshow">CODE:</p>
+<img class="SlideIMG" src="IMG/n5.png" alt="code"></img>
+
+<p class="IMGshow">CODE:</p>
+<img class="SlideIMG" src="IMG/n6.png" alt="code"></img>
+
+<h5 class="sep">Conclusione</h5>
+<p>
+In conclusione, come possiamo notare questo è un problema che potrebbe accadere
+ molto spesso, sopratutto se molti <em>thread</em> competono per la stessa variabile. 
+ Inoltre, questa <em>race condition</em> non è gestita dal sistema operativo, dato che il suo
+ lavoro non è quello di gestire tutti gli errori, ma, come detto in precedenza, quello 
+ di svolgere le richieste assegnate il più velocemente possibile.
+Purtroppo, non esistono neanche programmi in grado di risolvere questo problema, dal 
+momento che non esistono programmi in grado di interferire con l'assegnazione dei tempi gestiti dal sistema 
+operativo, ma esistono alcuni programmi esterni utili per <em>debugging</em> la cui 
+funzione principale è quella di accorgersi di quando si verifica questa sincronizzazione. 
+Non possono però far nulla per evitarla: è compito del programmatore gestire il programma, preferibilmente 
+non gestendo la <em>race condition </em>quando si è ormai verificata, ma tentando di evitarla completamente.
+</p>
+
+<br />
+<br />
+<br />
+
+<p>Riportiamo di seguito alcuni eventi causati dalla race condition:</p>
+
+<br />
+
+<h3>Therac-25</h3>
+
+<hr />
+
+<p>Una macchina “radiation therapy” che per questo errore infliggeva nel paziente massive dosi di radiazioni.</p>
+<a href="http://sunnyday.mit.edu/papers/therac.pdf">http://sunnyday.mit.edu/papers/therac.pdf</a> </span>Punto 3.</span>
+
+<br />
+
+<h3>Spirit (rover)</h3>
+
+<hr />
+
+<p>La macchina che nel 2004 andò a scattare delle foto su marte ebbe di problemi che vennero risolti per colpa di una race hazard</p>
+<a href="https://en.wikipedia.org/wiki/Spirit_(rover)#Sol_17_(January_21,_2004)_flash_memory_management_anomaly">https://en.wikipedia.org/wiki/Spirit_(rover)</a>
+
+<br />
+<br />
+<br />
+
+<p>END~</p>
+<p>PDF: OLD</p>
+<a href="http://alexandernettenbreijers.altervista.org/wp-content/uploads/2018/02/Race-Condition-v2-1.pdf" rel="attachment wp-att-89">Race Condition v2 (1)</a>
+
+</div>
 
 <script src="../../Demos/jquery-3.3.1.min.js"></script>
 <script src="../../Demos/HideIMG.js"></script>
 <script src="js.js"></script>
 
-
+<br />
+<br />
+<br />
+<br />
+<br />
 
 </body>
 </html>

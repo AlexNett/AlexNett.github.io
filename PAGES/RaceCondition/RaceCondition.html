@@ -1,5 +1,6 @@
 <html>
 <head>
+<title>Race Condition</title>
 <link rel="stylesheet" type="text/css" href="../../Demos/Header.css">
 <link rel="stylesheet" type="text/css" href="css.css">
 </head>
@@ -275,7 +276,7 @@ Funzionano, daranno sempre il risultato voluto, quindi tutti felici? Non troppo,
 programma è lento, troppo lento, ma purtroppo su questo non possiamo farci nulla; la domanda che resta è solo una quindi, semaforo o mutex? <br>
 Tutti e due fanno ciò che è richiesto e dal codice sembrano essere completamente uguali, se non per parametri e nome delle funzioni; l'unica cosa in cui si
 differenziano è il livello macchina in cui lavorano e la funzionalità. Il semaforo è, difatti, a livello applicazione e può presentare più stadi oltre verde e rosso;
-il mutex, invece, è a kernal level (sistema operativo) e ha solo rosso e verde. A questo livello, alcune azioni sono mutex-protected, cioè, 
+il mutex, invece, è a kernel level (sistema operativo) e ha solo rosso e verde. A questo livello, alcune azioni sono mutex-protected, cioè, 
 più pesanti e quindi con tempi di esecuzione più lenti, ma solo quando sono presenti azioni più pesanti di un banale incremento.
 </p>
 <p>

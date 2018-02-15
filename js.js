@@ -26,8 +26,11 @@ $(function(){
 		this.draw = function()
 		{
 			C.fillStyle="#e83535";
+			C.strokeStyle="rgba(255,255,255,0.7";
 			C.beginPath();
+			C.lineWidth = 12;
 			C.arc(this.x,this.y,r,0,2*Math.PI);
+			C.stroke();
 			C.fill();
 		}
 		this.update = function()

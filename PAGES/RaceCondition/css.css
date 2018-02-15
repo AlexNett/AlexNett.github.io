@@ -56,10 +56,15 @@ p.codeShow{
 }
 
 .sep {
+	font-size: 150%;
+	margin-top: 75px;
 	text-align: center;
 	background-color:#e83535;
 	color: white;
 	text-shadow: none;
 	font-weight: normal;
-	margin: 10px 0;
+}
+
+p {
+	margin-bottom: 1ex;
 }

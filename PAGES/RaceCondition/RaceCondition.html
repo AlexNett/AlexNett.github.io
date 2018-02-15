@@ -12,7 +12,7 @@
 
 <div class="page">
 
-<h5 class="sep">Introduzione</h5>
+<h5 class="sep" style="margin-top: 0px;">Introduzione</h5>
 <p>
 La <em>race condition</em>, anche chiamata <em>race hazard</em>, è un problema che può verificarsi in campo informatico nel <em>multi-threading programming</em> ed è dovuto al tentativo di<em> thread</em> di pari priorità di un programma di eseguire azioni in parallelo.
 In una macchina <em>single-core</em>, le azioni vengono eseguite in sequenza partendo da quella che è stata richiesta per prima (sempre considerando nessuna priorità).
@@ -214,7 +214,7 @@ Infine siamo certi che ci saranno 5 milioni di azioni di scrittura, ma i <em>thr
 
 <p class="IMGshow">CODE:</p>
 <img class="SlideIMG" src="IMG/n2.png" alt="code"></img>
-
+<p class="codeShow" >RESULT: <code>3291884</code></p>
 <h5 class="sep">Note</h5>
 
 <p>
@@ -240,14 +240,60 @@ thread può accadere che delle variabili vengano sovrascritte con valori uguali 
 
 <h5 class="sep">"Fix"</h5>
 
+<p>
+Quindi usare i <em>thread</em>, oltre a dare errori, è più lento. C'è allora un modo per evitare che due variabili interferiscano tra 
+loro durante l'elaborazione? Si: usando i semafori... Creiamone uno. <br>
+La logica dietro un semaforo è bloccare il procedimento di un pezzo di codice, che potrebbe contenere un'azione di modifica di una variabile, 
+per tutti i <em>thread</em> tranne uno, per il quale invece continua a funzionare, in modo che sulla variabile lavori solo 
+un potenziale modificatore. Una volta finita l'azione, viene permesso a un altro <em>thread</em> di lavorare e così via. In questo modo, lentamente e uno alla volta tutti i <em>thread</em> raggiungeranno il loro obbiettivo comune. 
+A tal fine usiamo un <em>boolean</em> che rappresenta il rosso o il verde di un semaforo.
+
+</p>
+
 <p class="IMGshow">CODE:</p>
 <img class="SlideIMG" src="IMG/n4.png" alt="code"></img>
+<p class="codeShow" >RESULT: <code>4999960</code></p>
+
+<p>
+Come possiamo notare non ha funzionato, ma ci siamo andati vicino, molto più vicino rispetto all'esecuzione senza semaforo... Ma la logica è giusta... come 
+mai non ha funzionato? Semplice: siamo a un livello di programmazione troppo alto. Infatti, durante il cambio di semaforo, solo un thread andava avanti, eccetto rare volte 
+in cui più thread partono appena diventa verde il semaforono, prima che cambi in rosso, causando una race condition. Questo perché manca qualcosa 
+al semaforo, una sorta di "blocca-qualunque-partenza-mentre-cambio-colore" che, difatti, è un'esclusiva del basso livello. <br>
+In nostro soccorso arrivano due altri metodi per il semaforo, scritti in un linguaggio più basso di livello, quindi in grado di svolgere questa azione: il semaforo e il mutex. 
+</p>
 
 <p class="IMGshow">CODE:</p>
 <img class="SlideIMG" src="IMG/n5.png" alt="code"></img>
+<p class="codeShow" >RESULT: <code>50000</code></p>
 
 <p class="IMGshow">CODE:</p>
 <img class="SlideIMG" src="IMG/n6.png" alt="code"></img>
+<p class="codeShow" >RESULT: <code>50000</code></p>
+
+<p>
+Funzionano, daranno sempre il risultato voluto, quindi tutti felici? Non troppo, in realtà abbiamo sacrificato efficienza per completezza, cioè, il nostro 
+programma è lento, troppo lento, ma purtroppo su questo non possiamo farci nulla; la domanda che resta è solo una quindi, semaforo o mutex? <br>
+Tutti e due fanno ciò che è richiesto e dal codice sembrano essere completamente uguali, se non per parametri e nome delle funzioni; l'unica cosa in cui si
+differenziano è il livello macchina in cui lavorano e la funzionalità. Il semaforo è, difatti, a livello applicazione e può presentare più stadi oltre verde e rosso;
+il mutex, invece, è a kernal level (sistema operativo) e ha solo rosso e verde. A questo livello, alcune azioni sono mutex-protected, cioè, 
+più pesanti e quindi con tempi di esecuzione più lenti, ma solo quando sono presenti azioni più pesanti di un banale incremento.
+</p>
+<p>
+Testando questo con una azione più complicata, proviamo a vedere, su 500 tentativi per 3 prove, quante volte è stato più veloce il semaforo del mutex e viceversa.
+</p>
+<p class="IMGshow">CODE:</p>
+<img class="SlideIMG" src="IMG/n7.png" alt="code"></img>
+<table>
+<tr><th>Prova</th><th>Semaforo</th><th>Mutex</th></tr>
+<tr><td>1</td><td>382</td><td>118</td></tr>
+<tr><td>2</td><td>371</td><td>129</td></tr>
+<tr><td>3</td><td>445</td><td>55</td></tr>
+</table>
+
+<p>
+Il semaforo è stato infatti più veloce la maggior parte delle volte, ma come detto in precedenza, se provassimo a fare questo con 
+azioni molto meno complicate il risultato sarebbe 50%-50%.
+</p>
 
 <h5 class="sep">Conclusione</h5>
 <p>
@@ -274,16 +320,16 @@ non gestendo la <em>race condition </em>quando si è ormai verificata, ma tenta
 
 <h3>Therac-25</h3>
 
-<hr />
+<hr class="menu"/>
 
 <p>Una macchina “radiation therapy” che per questo errore infliggeva nel paziente massive dosi di radiazioni.</p>
 <a href="http://sunnyday.mit.edu/papers/therac.pdf">http://sunnyday.mit.edu/papers/therac.pdf</a> </span>Punto 3.</span>
 
-<br />
+<br /><br />
 
 <h3>Spirit (rover)</h3>
 
-<hr />
+<hr class="menu"/>
 
 <p>La macchina che nel 2004 andò a scattare delle foto su marte ebbe di problemi che vennero risolti per colpa di una race hazard</p>
 <a href="https://en.wikipedia.org/wiki/Spirit_(rover)#Sol_17_(January_21,_2004)_flash_memory_management_anomaly">https://en.wikipedia.org/wiki/Spirit_(rover)</a>

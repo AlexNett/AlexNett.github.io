@@ -3,6 +3,7 @@
 	width: 300px;
 	height: 333px;
 	border: 1px ridge #161d1d;
+	user-drag: none; -moz-user-select: none; -webkit-user-drag: none;
 }
 
 

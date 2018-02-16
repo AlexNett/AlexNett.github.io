@@ -7,6 +7,11 @@ html {
   color: #fff;
 }
 
+::-moz-selection {
+  background: #f96262; 
+  color: #fff;
+}
+
 *{
 	padding: 0;
 	margin: 0;

@@ -2,6 +2,11 @@ html {
   overflow-y: scroll;
 }
 
+::selection {
+  background: #f96262; 
+  color: #fff;
+}
+
 *{
 	padding: 0;
 	margin: 0;
@@ -81,3 +86,4 @@ a.menu:hover{
 	color: #ddd;
 	text-decoration: none;
 }
+

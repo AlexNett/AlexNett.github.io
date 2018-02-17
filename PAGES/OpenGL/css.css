@@ -1,0 +1,70 @@
+@font-face{
+	font-family: Nintendo;
+	src: url(../../Demos/Nintendo-DS-BIOS.ttf);
+}
+
+tr, td, th {
+	text-align: center;
+	border: 1px solid #ffafaf;
+	padding: 3px;
+	background-color:  #e
+}
+table{
+	border: 1px solid #161d1d;
+	padding: 1px;
+	margin: 12px 0;
+	width: 100%;
+	background-color: white;
+}
+
+th {
+	background-color: #e83535;
+	color: white;
+	text-shadow: none;
+}
+
+code {
+	padding: 5px;
+	color: white;
+	text-shadow: none;
+	background-color: #fa5757;
+	font-weight: normal;
+	font-family: Nintendo;
+}
+
+a:link, a:visited{
+	color: #f55;
+	text-decoration: none;
+}
+
+a:hover{
+	color: #f33;
+	text-decoration: none;
+}
+
+p.IMGshow{
+	margin-top: 0px;
+	margin-bottom: 0px;
+	font-weight: bold;
+}
+
+p.codeShow{
+	text-align: right;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	font-weight: bold;
+}
+
+.sep {
+	font-size: 150%;
+	margin-top: 75px;
+	text-align: center;
+	background-color:#e83535;
+	color: white;
+	text-shadow: none;
+	font-weight: normal;
+}
+
+p {
+	margin-bottom: 1ex;
+}

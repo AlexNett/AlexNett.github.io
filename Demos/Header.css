@@ -15,11 +15,11 @@ html {
 *{
 	padding: 0;
 	margin: 0;
-	font-family: monospace;
+	font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif; ;
 }
 
 div.page {
-	letter-spacing: -1px;
+	
 	margin: 0 auto;
 	left: 50%;
 	border: 1px solid #161d1d;
@@ -28,7 +28,7 @@ div.page {
 	color: #1d1616;
 	font-size:130%;
 	background-color: #fff;	
-	box-shadow: 20px 20px #ffe5e5;
+	box-shadow: 0px 0px 25px #993333;
 }
 
 
@@ -39,7 +39,6 @@ div.page {
 	padding: 3px;
 	color: white;
 	text-align: center;
-	text-shadow: 0px 0px white;
 }
 
 .Slide:hover{
@@ -55,6 +54,7 @@ div.page {
 	font-size: 400%;
 	text-align: center;
 	color: #ab3535;
+	font-weight: bold;
 }
 
 .subtitle {
@@ -62,7 +62,7 @@ div.page {
 	font-size: 225%;
 	text-align: center;
 	color: #ab3535;
-	font-weight: normal;
+	font-weight: bold;
 }
 
 hr.menu{
@@ -73,6 +73,7 @@ hr.menu{
 
 pre.menu{
 	padding: 3px;
+	box-shadow: 0px 0px 25px #993333;
 }
 
 .menu {
@@ -81,13 +82,19 @@ pre.menu{
 	background-color: #e83535;
 }
 
+a{
+	text-shadow: 1px 1px #bb0000;
+}
+
 a.menu:link, a.menu:visited{
 	font-size: 125%;
 	color: #fff;
 	text-decoration: none;
+	text-shadow: 2px 2px #bb0000;
 }
 
 a.menu:hover{
+
 	font-size: 125%;
 	color: #ddd;
 	text-decoration: none;

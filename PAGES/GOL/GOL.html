@@ -4,16 +4,661 @@
 <title>Race Condition</title>
 <link rel="stylesheet" type="text/css" href="../../Demos/Header.css">
 <link rel="stylesheet" type="text/css" href="css.css">
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
 </head>
 <body>
 
 <div class="menu"> <pre class="menu" > <a class="menu" href="../../PAGES/AboutMe/AboutMe.html">About-me</a> | <a class="menu" href="../../index.html">Homepage</a> | <a class="menu" href="../../PAGES/Archive/Archive.html">Archive</a> </pre> </div>
-<h1 class="title">Race Condition</h1>
-<h5 class="subtitle">[ITA]</h5>
+<h1 class="title">Conway's game of life</h1>
+<h5 class="subtitle">Download</h5>
 <br />
 
 <div class="page">
+<pre class="prettyprint">
+/*
++---------------------------------+
+| Net's Conway's game of life -v3 |
+|                                 |
+|               ▀ ▀               |
+|              ▀▄▄▄▀              |
++---------------------------------+
+*/
 
+/*
+|	#include + standard library
+*/
+#include <iostream>
+#include <windows.h>
+#include <process.h>
+#include <string>
+#include <conio.h>
+using namespace std;
+
+/*
+|	#define
+|	COLORS :: used colors shortcuts
+|	STRUCTURES :: special char shortcuts
+*/
+#define BLACK SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 0);
+#define RED SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
+#define DARKGRAY SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
+#define LIGHTRED SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
+#define YELLOW SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
+#define WHITE SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+#define TL char(218) // TOP LEFT
+#define TR char(191) // TOP RIGHT
+#define BL char(192) // BOTTOM LEFT
+#define BR char(217) // BOTTOM RIGHT
+#define HL char(196) // HORIZONTAL LINE
+#define VL char(179) // VERTICAL LINE
+#define CB char(254) // BIG CUBE | ALIVE CELL 
+#define NN char(250) // SMALL CUBE | DEAD CELL
+
+/*
+|	GLOBAL VARIABLES
+*/
+char** cWorld; /* cWorld:: usato per matrice dinamica, usaggio di char invece che bool per permettere >2 stati alle celle.
+			   |				  in oltre sizeof(bool) = sizeof(char) quindi stesso usaggio di memoria. */
+
+int x = -1; // cordinata usata per facilitare l'usaggio tra funzioni
+int y = -1; // cordinata usata per facilitare l'usaggio tra funzioni
+string str = ""; // stringa usata per facilitare l'usaggio tra funzioni
+int ROWS = 15; // numero di righe nella matrice
+int COLS = 15; // numero di colonne nella matrice
+int REFRESHRATE = 250; // milliseconds al passaggio del prossimo frame nel canvas
+string TIME = "STOP"; // canvas flow del tempo
+string CMD; // comando inseribile
+
+/*
+| HELP:
+|	help station, comandi utili:
+|
+|	[full command][shortcut] "explanation"
+|	[full command][shortcut] "explanation"
+|	[full command][shortcut] "explanation"
+|	...
+*/
+void help()
+{
+	cout << endl;
+	YELLOW cout << ' ' << CB;
+	for (int i = 0; i < 65; i++) { cout << HL; }
+	cout << CB << endl;
+	LIGHTRED cout << "\t\t Net\'s \"";
+	RED cout << "Cornway\'s Game of life";
+	LIGHTRED cout << "\" - v3.01  " << "\n\n";
+	YELLOW cout << "\t\t\t\t" << ' ' << char(223) << ' ' << ' ' << char(223) << endl;
+	cout << "\t\t\t\t" << char(223) << char(220) << char(220) << char(220) << char(220) << char(223) << "\n\n";
+	WHITE
+	cout << "  [help][h]    \t Prints aviable commands \n";
+	cout << "  [helpex]     \t Prints all aviable commands \n";
+	cout << "  [clear][cls] \t Clears CMD \n";
+	cout << "  [draw][d]    \t fast set \n";
+	cout << "  [start][g]   \t Start simulation \n";
+	cout << "  [quit][q]    \t Exits \n";
+	YELLOW cout << ' ' << CB;
+	for (int i = 0; i < 65; i++) { cout << HL; }
+	cout << CB << endl << endl;
+}
+
+/*
+| HELP EXTENDED:
+|	help station, tutti i comandi:
+|
+|	[full command][shortcut] "explanation"
+|	[full command][shortcut] "explanation"
+|	[full command][shortcut] "explanation"
+|	...
+*/
+void helpex()
+{
+	cout << endl;
+	YELLOW cout << ' ' << CB;
+	for (int i = 0; i < 65; i++) { cout << HL; }
+	cout << CB << endl;
+	LIGHTRED cout << "\t\t Net\'s \"";
+	RED cout << "Cornway\'s Game of life";
+	LIGHTRED cout << "\" - v3.01  " << "\n\n";
+	YELLOW cout << "\t\t\t\t" << ' ' << char(223) << ' ' << ' ' << char(223) << endl;
+	cout << "\t\t\t\t" << char(223) << char(220) << char(220) << char(220) << char(220) << char(223) << "\n\n";
+	WHITE
+	cout << "  [help][h]    \t Prints aviable commands \n";
+	cout << "  [helpex]     \t Prints all aviable commands \n";
+	cout << "  [info][?]    \t Prints some infos \n";
+	cout << "  [clear][cls] \t Clears CMD \n";
+	cout << "  [set/r][sr]  \t Set canvas refresh rate \n";
+	cout << "  [set/s][ss]  \t Set canvas size \n";
+	cout << "  [set/l][sl]  \t Set/change life in canvas \n";
+	YELLOW cout << "  [draw][d]    \t fast set \n";
+	DARKGRAY cout << "  [w-a-s-d]    \t move (DRAW MODE ONLY) \n";
+	cout << "  [SPACE]      \t change selected cell state (DRAW MODE ONLY) \n";
+	cout << "  [b]          \t Exits mode (DRAW MODE ONLY) \n";
+	WHITE cout << "  [show][v]    \t Shows current table \n";
+	cout << "  [import][i]  \t Input code of the canvas (\'LIST\' FOR PRESETS, \'b\' TO EXIT)\n";
+	cout << "  [export][e]  \t Outputs a code of the canvas \n";
+	cout << "  [reset][r]   \t Clears canvas \n";
+	YELLOW cout << "  [start][g]   \t Start simulation \n";
+	DARKGRAY cout << "  [z]          \t Next generation (START MODE ONLY) \n";
+	cout << "  [s]          \t stop time (START MODE ONLY) \n";
+	cout << "  [a]          \t time has began to move again (START MODE ONLY) \n";
+	cout << "  [b]          \t Esits mode (START MODE ONLY) \n";
+	WHITE cout << "  [exit]      \t Exits \n";
+	cout << "  [quit][q]    \t Exits \n";
+	YELLOW cout << ' ' << CB;
+	for (int i = 0; i < 65; i++) { cout << HL; }
+	cout << CB << endl << endl;
+}
+
+/*
+|	INFO
+|		prints global variables.
+*/
+void info()
+{
+	cout << endl;
+	YELLOW cout << " INFO \n";
+	LIGHTRED cout << " ROWS: ";
+	WHITE cout << ROWS << endl;
+	LIGHTRED cout << " COLS: ";
+	WHITE cout << COLS << endl;
+	LIGHTRED cout << " REFRESH RATE: ";
+	WHITE cout << REFRESHRATE << endl;
+	LIGHTRED cout << " STR: " << endl;
+	WHITE cout << str;
+	cout << endl;
+}
+
+/*
+|	FREE:
+|		cancellazione matrice freeing la memoria
+*/
+void free()
+{
+	// cancellazione matrice parte COLS
+	for (int i = 0; i < ROWS; ++i) {
+		delete[] cWorld[i];
+	}
+	// cancellazione matrice parte ROWS
+	delete[] cWorld;
+}
+
+/*
+|	RE-ALLOCATE:
+|		settaggio matrice con nuova lunghezza inseguito ad una cancellazione
+*/
+void allocate()
+{
+	cWorld = new char*[ROWS]; // allocazione dinamica un array length = ROWS
+	for (int i = 0; i < ROWS; i++) { cWorld[i] = new char[COLS]; } // allocazione dinamica in ogniuna cell un secondo array length = COLS
+	/*
+	|	settare tutto dentro alla matrice a 0 = DEAD CELL
+	*/
+	for (int i = 0; i < ROWS; i++) {
+		for (int j = 0; j < COLS; j++) {
+			cWorld[i][j] = 0;
+		}
+	}
+}
+
+/*
+|	RESET:
+|		genocidio matrice
+*/
+void reset()
+{
+	for (int i = 0; i < ROWS; i++) {
+		for (int j = 0; j < COLS; j++) {
+			cWorld[i][j] = 0;
+		}
+	}
+}
+
+/*
+| CMD:
+|	shortcut for printing a starting msg
+*/
+void CMD_re_start(bool first)
+{
+	system("cls");
+	YELLOW cout << "CMD: \n";
+	if (first) {
+		WHITE cout << "Type \'";
+		LIGHTRED cout << "help";
+		WHITE cout << "\' or \'";
+		LIGHTRED cout << "h";
+		WHITE cout << "\' for command list. \n\n";
+		WHITE
+	}
+}
+
+/*
+|	CMD:
+|		shortcut for printing a 'insert command' msg
+*/
+void CMD_insert()
+{
+	YELLOW cout << ">";
+	WHITE cin >> CMD;
+}
+
+/*
+|	RESIZE:
+|		re-size canvas
+*/
+void set_size()
+{
+	free();
+	ROWS = y;
+	COLS = x;
+	allocate();
+}
+
+/*
+|	PRINT CANVAS
+|		stampa un comprensibile canvas
+*/
+void print_canvas()
+{
+	// STRUCTURING
+	YELLOW cout << TL;
+	for (int i = 0; i < COLS; i++) {
+		cout << HL << HL; 
+	}
+	cout << HL << TR << endl;
+	for (int i = 0; i < ROWS; i++)
+	{
+		cout << VL << ' ';
+		for (int j = 0; j < COLS; j++)
+		{
+			WHITE
+			if (j == y && i == x) { LIGHTRED }
+			if (cWorld[i][j] == true) {
+				cout << CB; 
+			}
+			else {
+				if (j == y && i == x) {
+					cout << char(4); 
+				} 
+				else {
+					DARKGRAY cout << NN; 
+				} 
+			}
+			cout << ' ';
+		}
+		YELLOW cout << VL << endl;
+	}
+	cout << BL;
+	for (int i = 0; i < COLS; i++) {
+		cout << HL << HL; 
+	}
+	cout << HL << BR << endl;
+
+	if (CMD == "SHOW") { return; }
+	else if (CMD == "DRAW")
+	{
+		LIGHTRED cout << " Click \'w-a-s-d\' to move in the canvas, \'SPACE\' to change the cells's state \n";
+		cout << " Click \'b\' to exit." << endl;
+	}
+	else
+	{
+		YELLOW cout << "\n TIME:\t";
+		LIGHTRED cout << TIME << endl;
+		YELLOW cout << " CMD:\t";
+		LIGHTRED cout << CMD << endl << endl;
+		cout << " Click \'s\' to stop time." << endl;
+		cout << " Click \'a\' for automatic mode." << endl;
+		cout << " Click \'z\' for 1 step." << endl;
+		cout << " Click \'b\' to exit." << endl;
+	}
+}
+
+/*
+|	RESET CORDINATES:
+|		puts cordinates to a invisible value
+*/
+void reset_cordinates()
+{
+	x = -1;
+	y = -1;
+}
+
+/*
+|	DRAW
+|		modalità per settare velocemente caselle
+|
+|		SPIEGAZIONE:
+|			un ciclo cambia le cordinate che indicano il punto, se premuto SPACE esse cambieranno,
+|			il colore è una funzione dentro a print_canvas(), che dice di essere rossa a qualunque cella è in quella cordinata.
+*/
+void draw()
+{
+	system("cls");
+	x = 0;
+	y = 0;
+	while (true)
+	{
+		print_canvas();
+		switch (_getch())
+		{
+		case 'w': x--; break;
+		case 's': x++; break;
+		case 'a': y--; break;
+		case 'd': y++; break;
+		case ' ': cWorld[x][y] = !cWorld[x][y]; break;
+		case 'b':
+			reset_cordinates();
+			CMD_re_start(false);
+			return;
+		}
+		if (x < 0) { x = 0; }
+		if (y < 0) { y = 0; }
+		if (x > ROWS-1) { x = ROWS-1; }
+		if (y > COLS-1) { y = COLS-1; }
+		system("cls");
+	}
+}
+
+/*
+|	ADIACENTI
+|		a seconda della posizione, dice quante celle vive sono adiacenti.
+		RETURNS: la quantità.
+
+		SPIEGAZIONE: 
+					 dato accedere a zone di memoria non dentro la matrice da errori l'unico modo per evitarlo
+					 e gestire tutte le possibilità che stanno a contatto con una zona esterna, 
+					 cioè tutti i lati, se un angolo, un mistuglio dei due lati adiacenti
+*/
+int alive_near_ammount(int i, int j)
+{
+	int iConta = 0;
+	for (int a = -1; a < 2; a++) {
+		for (int b = -1; b < 2; b++) {
+			if (a == 0 && b == 0) {} // same self
+			else if (i == 0 && j == 0) // top left
+			{
+				if (a >= 0 && b >= 0) { if (cWorld[i + a][j + b] == 1 || cWorld[i + a][j + b] == 2) { iConta++; } }
+			}
+			else if (i == 0 && j == COLS - 1) // top right
+			{
+				if (a >= 0 && b <= 0) { if (cWorld[i + a][j + b] == 1 || cWorld[i + a][j + b] == 2) { iConta++; } }
+			}
+			else if (i == ROWS - 1 && j == 0) // bot left
+			{
+				if (a <= 0 && b >= 0) { if (cWorld[i + a][j + b] == 1 || cWorld[i + a][j + b] == 2) { iConta++; } }
+			}
+			else if (i == ROWS - 1 && j == COLS - 1) // bot right
+			{
+				if (a <= 0 && b <= 0) { if (cWorld[i + a][j + b] == 1 || cWorld[i + a][j + b] == 2) { iConta++; } }
+			}
+			else if (i - 1 < 0) { if (a >= 0) { if (cWorld[i + a][j + b] == 1 || cWorld[i + a][j + b] == 2) { iConta++; } } } //top
+			else if (j - 1 < 0) { if (b >= 0) { if (cWorld[i + a][j + b] == 1 || cWorld[i + a][j + b] == 2) { iConta++; } } } // left
+			else if (i + 1 > ROWS - 1) { if (a <= 0) { if (cWorld[i + a][j + b] == 1 || cWorld[i + a][j + b] == 2) { iConta++; } } } //bottom
+			else if (j + 1 > COLS - 1) { if (b <= 0) { if (cWorld[i + a][j + b] == 1 || cWorld[i + a][j + b] == 2) { iConta++; } } } // right
+			else { if (cWorld[i + a][j + b] == 1 || cWorld[i + a][j + b] == 2) { iConta++; } }
+		}
+	}
+	return iConta;
+}
+
+/*
+|	LOGIC:
+|		il cuore del programma, la logica per arrivare ad una generazione seguente
+|
+|		SPIEGAZIONE: un piccolo pezzo di codice controlla le caselle adiacenti ad ogni cella e se hanno una quantita specifica di adiacenti
+|					 il loro stato cambierà in uno che rappresenta come saranno in futuro.
+|					 Questo nuova cella a seconda di che stato è in un secondo momento si tradurra da "come in futuro" in "adesso"
+|
+*/
+void logic()
+{
+	for (int i = 0; i < ROWS; i++) {
+		for (int j = 0; j < COLS; j++) {
+			if (!(alive_near_ammount(i, j) == 2 || alive_near_ammount(i, j) == 3) && (cWorld[i][j] == 1)) { cWorld[i][j] = 2; }
+			if ((alive_near_ammount(i, j) == 3) && (cWorld[i][j] == 0)) { cWorld[i][j] = 3; }
+		}
+	}
+	for (int i = 0; i < ROWS; i++) {
+		for (int j = 0; j < COLS; j++) {
+			if (cWorld[i][j] == 0) { cWorld[i][j] = 0; } // dead
+			else if (cWorld[i][j] == 1) { cWorld[i][j] = 1; } // alive
+			else if (cWorld[i][j] == 2) { cWorld[i][j] = 0; } // alive but next gen = dead
+			else if (cWorld[i][j] == 3) { cWorld[i][j] = 1; } // dead but next gen = alive
+		}
+	}
+}
+
+/*
+|	WORK:
+|		canvas course of action.
+*/
+void work(void* n)
+{
+	while (true)
+	{
+		print_canvas();
+		while (TIME == "STOP") { if (CMD != "START") return; }
+		Sleep(REFRESHRATE);
+		logic();
+		system("cls");
+	}
+}
+
+/*
+|	CANVAS:
+|		dove la simulazione inizia...
+*/
+void canvas()
+{
+	system("cls");
+	HANDLE C = (HANDLE)_beginthread(&work, 0, 0);
+	while (true)
+	{
+		switch (_getch())
+		{
+		case 'a': x--; TIME = "GOING"; break;
+		case 's': x++; TIME = "STOP"; break;
+		case 'z': y--; TIME = "GOING"; TIME = "STOP"; break;
+		case 'b':
+			TIME = "STOP";
+			CloseHandle(C);
+			Sleep(REFRESHRATE);
+			CMD_re_start(false);
+			return;
+		}
+	}
+}
+
+/*
+|	EXPORT
+|		exports a code for the canvas.
+*/
+void export_canvas()
+{
+	str = "[";
+	if (ROWS < 10) { str += "0" + to_string(ROWS); }
+	else { str += to_string(ROWS); }
+	str += "][";
+	if (ROWS < 10) { str += "0" + to_string(COLS); }
+	else { str += to_string(COLS); }
+	str += "]";
+	for (int i = 0; i < ROWS; i++) {
+		for (int j = 0; j < COLS; j++) {
+		str += to_string(cWorld[i][j]); 
+		} 
+	}
+	// removes end 0s
+	for (int i = str.length() - 1; i != -7; i--) {
+		if (str[i] == '0') {
+			str.pop_back(); 
+		}
+		else {
+			break; 
+		} 
+	}
+}
+
+/*
+|	IMPORT
+|		imports an exported canvas code
+*/
+void import_canvas()
+{
+	string presets[] = {
+		"[15][15]000000000000000000000000000000000000000000000000000000000000000000101000000000000000000000000001000100000000000111",
+		"[15][38]000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000101000000000000000000000000011000000110000000000001100000000000001000100001100000000000011001100000000100000100011000000000000000011000000001000101100001010000000000000000000000010000010000000100000000000000000000000010001000000000000000000000000000000000011",
+		"[10][10]01000000000010000000111"
+	};
+	if (str == "b") { return; }
+	else if (str == "list") {
+		cout << endl;
+		YELLOW cout << " LIST \n";
+		LIGHTRED cout << " Gosper glider gun: ";
+		WHITE cout << "glider_gun" << endl;
+		LIGHTRED cout << " Glider: ";
+		WHITE cout << "glider" << endl;
+		LIGHTRED cout << " Happy face: ";
+		WHITE cout << "happy" << endl;
+		return;
+	}
+	else if (str == "happy") { str = presets[0]; }
+	else if (str == "glider_gun") { str = presets[1]; }
+	else if (str == "glider") { str = presets[2]; }
+	free();
+	ROWS = (int(str[1]) - 48) * 10 + (int(str[2]) - 48);
+	COLS = (int(str[5]) - 48) * 10 + (int(str[6]) - 48);
+	allocate();
+	for (int i = 0; i < COLS; i++) {
+		for (int j = 0; j < ROWS; j++) {
+			if ((j*COLS) + i + 8 < str.length()) { cWorld[j][i] = (int(str[(j*COLS) + i + 8]) - 48); }
+			else { cWorld[j][i] = 0; }
+		}
+	}
+}
+
+/*
+|	MAIN:
+|		input comandi
+|		NOTE: utilizo "if" invece che "switch" perchè allo "switch" non piacciono le stringhe
+*/
+int main()
+{
+	allocate();
+	CMD_re_start(true);
+	while (true)
+	{
+		CMD_insert();
+		// HELP
+		if (CMD == "help" || CMD == "h")
+		{
+			CMD = "HELP";
+			help();
+		}
+		// HELP EXTENDED
+		if (CMD == "helpex")
+		{
+			CMD = "HELPEX";
+			helpex();
+		}
+		// INFO
+		if (CMD == "info" || CMD == "?")
+		{
+			CMD = "INFO";
+			info();
+		}
+		//EXIT
+		else if (CMD == "exit" || CMD == "quit" || CMD == "q")
+		{
+			CMD = "QUIT";
+			free();
+			return 0;
+		}
+		//CLEAR
+		else if (CMD == "clear" || CMD == "cls")
+		{
+			CMD = "CLEAR";
+			CMD_re_start(false);
+		}
+		//RESET
+		else if (CMD == "reset" || CMD == "r")
+		{
+			CMD = "RESET";
+			reset();
+		}
+		//SET SIZE
+		else if (CMD == "set/s" || CMD == "ss")
+		{
+			CMD = "SET SIZE";
+			do {
+				LIGHTRED cout << "ROWS: ";
+				WHITE cin >> y;
+			} while (y > 99 || y < 1);
+			do {
+				LIGHTRED cout << "COLS: ";
+				WHITE cin >> x;
+			} while (x > 99 || x < 1);
+			set_size();
+			reset_cordinates();
+		}
+		//SET REFRESH RATE
+		else if (CMD == "set/r" || CMD == "sr")
+		{
+			CMD = "SET REFRESH RATE";
+			LIGHTRED cout << "SET REFRESH RATE AT: ";
+			WHITE cin >> REFRESHRATE;
+		}
+		//SET LIFE
+		else if (CMD == "set/l" || CMD == "sl")
+		{
+			CMD = "SET LIFE";
+			do { 
+			LIGHTRED cout << "CHANGE LIFE AT ROW: "; 
+			WHITE cin >> y; 
+			} while (y > ROWS);
+			do {
+			LIGHTRED cout << "CHANGE LIFE AT COL: ";
+			WHITE cin >> x; 
+			} while (x > COLS);
+			cWorld[y - 1][x - 1] = !cWorld[y - 1][x - 1];
+			reset_cordinates();
+		}
+		//SHOW
+		else if (CMD == "show" || CMD == "v")
+		{
+			CMD = "SHOW";
+			print_canvas();
+		}
+		//DRAW
+		else if (CMD == "draw" || CMD == "d")
+		{
+			CMD = "DRAW";
+			draw();
+		}
+		//START
+		else if (CMD == "start" || CMD == "g")
+		{
+			CMD = "START";
+			canvas();
+		}
+		//EXPORT
+		else if (CMD == "export" || CMD == "e")
+		{
+			CMD = "EXPORT";
+			export_canvas();
+			LIGHTRED cout << "EXPORT SEQUENCE: "; 
+			WHITE cout << str << endl;;
+		}
+		//IMPORT
+		else if (CMD == "import" || CMD == "i")
+		{
+			CMD = "IMPORT";
+			LIGHTRED cout << "IMPORT SEQUNCE: ";
+			WHITE cin >> str;
+			import_canvas();
+			cout << endl;
+		}
+	}
+}
+</pre>
 </div>
 
 <script src="../../Demos/jquery-3.3.1.min.js"></script>

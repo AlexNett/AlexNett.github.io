@@ -17,11 +17,11 @@ html {
 *{
 	padding: 0;
 	margin: 0;
-	font-family: 'EB Garamond', serif;
+	
 }
 
 div.page {
-	
+	font-family: 'EB Garamond', serif;
 	margin: 0 auto;
 	left: 50%;
 	border: 1px solid #161d1d;
@@ -31,6 +31,10 @@ div.page {
 	font-size:130%;
 	background-color: #fff;	
 	box-shadow: 0px 0px 25px #993333;
+}
+
+div.page > pre{
+	font-family: monospace;
 }
 
 
@@ -52,6 +56,7 @@ div.page {
 }
 
 .title {
+	font-family: 'EB Garamond', serif;
 	margin-top:50px;
 	font-size: 400%;
 	text-align: center;
@@ -60,6 +65,7 @@ div.page {
 }
 
 .subtitle {
+	font-family: 'EB Garamond', serif;
 	margin-bottom:50px;
 	font-size: 225%;
 	text-align: center;
@@ -68,27 +74,32 @@ div.page {
 }
 
 hr.menu{
+	font-family: 'EB Garamond', serif;
 	padding:1px;
 	background-color: #e83535;
 	border: 0;
 }
 
 pre.menu{
+	font-family: 'EB Garamond', serif;
 	padding: 3px;
 	box-shadow: 0px 0px 25px #993333;
 }
 
 .menu {
+	font-family: 'EB Garamond', serif;
 	text-align: center;
 	color: #353535;
 	background-color: #e83535;
 }
 
 a{
+	font-family: 'EB Garamond', serif;
 	text-shadow: 1px 1px #bb0000;
 }
 
 a.menu:link, a.menu:visited{
+	
 	font-size: 125%;
 	color: #fff;
 	text-decoration: none;

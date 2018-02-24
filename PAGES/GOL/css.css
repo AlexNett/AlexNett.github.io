@@ -1,70 +1,14 @@
-@font-face{
-	font-family: Nintendo;
-	src: url(../../Demos/Nintendo-DS-BIOS.ttf);
-}
-
-tr, td, th {
-	text-align: center;
-	border: 1px solid #ffafaf;
-	padding: 3px;
-	background-color:  #e
-}
-table{
-	border: 1px solid #161d1d;
-	padding: 1px;
-	margin: 12px 0;
-	width: 100%;
-	background-color: white;
-}
-
-th {
-	background-color: #e83535;
-	color: white;
-	text-shadow: none;
-}
-
-code {
-	padding: 5px;
-	color: white;
-	text-shadow: none;
-	background-color: #fa5757;
-	font-weight: normal;
-	font-family: Nintendo;
-}
-
-a:link, a:visited{
-	color: #f55;
-	text-decoration: none;
-}
-
-a:hover{
-	color: #f33;
-	text-decoration: none;
-}
-
-p.IMGshow{
-	margin-top: 0px;
-	margin-bottom: 0px;
-	font-weight: bold;
-}
-
-p.codeShow{
-	text-align: right;
-	margin-top: 0px;
-	margin-bottom: 0px;
-	font-weight: bold;
-}
-
-.sep {
-	font-size: 150%;
-	margin-top: 75px;
-	text-align: center;
-	background-color:#e83535;
-	color: white;
-	text-shadow: none;
-	font-weight: normal;
-}
-
-p {
-	margin-bottom: 1ex;
+.prettyprint{
+	font-family: monospace;
+	font-size: 60%;
+	
+	background: -moz-linear-gradient(66deg, #FFD6D6 0%, #FFFFFF 100%); /* ff3.6+ */
+background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, #FFD6D6), color-stop(100%, #FFFFFF)); /* safari4+,chrome */
+background: -webkit-linear-gradient(66deg, #FFD6D6 0%, #FFFFFF 100%); /* safari5.1+,chrome10+ */
+background: -o-linear-gradient(66deg, #FFD6D6 0%, #FFFFFF 100%); /* opera 11.10+ */
+background: -ms-linear-gradient(66deg, #FFD6D6 0%, #FFFFFF 100%); /* ie10+ */
+background: linear-gradient(24deg, #FFD6D6 0%, #FFFFFF 100%); /* w3c */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#FFD6D6',GradientType=0 ); /* ie6-9 */
+	
+	overflow-x: scroll;
 }

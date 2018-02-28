@@ -42,7 +42,7 @@ div.page > pre{
 	width:100%;
 	font-size: 70%;
 	background-color: #fa5757;
-	padding: 3px;
+	padding: 3px 0;
 	color: white;
 	text-align: center;
 }

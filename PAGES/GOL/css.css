@@ -1,14 +1,35 @@
 .prettyprint{
 	font-family: monospace;
-	font-size: 60%;
-	
-	background: -moz-linear-gradient(66deg, #FFD6D6 0%, #FFFFFF 100%); /* ff3.6+ */
-background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, #FFD6D6), color-stop(100%, #FFFFFF)); /* safari4+,chrome */
-background: -webkit-linear-gradient(66deg, #FFD6D6 0%, #FFFFFF 100%); /* safari5.1+,chrome10+ */
-background: -o-linear-gradient(66deg, #FFD6D6 0%, #FFFFFF 100%); /* opera 11.10+ */
-background: -ms-linear-gradient(66deg, #FFD6D6 0%, #FFFFFF 100%); /* ie10+ */
-background: linear-gradient(24deg, #FFD6D6 0%, #FFFFFF 100%); /* w3c */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#FFD6D6',GradientType=0 ); /* ie6-9 */
-	
+	font-size: 75%;
 	overflow-x: scroll;
+	margin-bottom: 5px;
+}
+
+.sep {
+	font-size: 150%;
+	margin-top: 75px;
+	text-align: center;
+	background-color:#e83535;
+	color: white;
+	text-shadow: none;
+	font-weight: normal;
+}
+
+.desc {
+	font-family: monospace;
+	font-size: 90%;
+	border: 1px solid #161d1d;
+	margin-top: 5px;
+	padding: 5px;
+	background-color: #ffefef
+}
+
+.tit {
+	font-size: 110%;
+	color: #bb0000;
+	font-family: 'EB Garamond', serif;
+}
+
+b {
+	margin-left: 5px;
 }

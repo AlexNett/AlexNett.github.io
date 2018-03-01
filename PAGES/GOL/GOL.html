@@ -503,8 +503,8 @@ int alive_near_ammount(int i, int j)
 <p class="sep" style="margin-top: 0"> My Game of life:<p>
 Il nostro primo obbietivo è quello di trovare un modo di creare una griglia,  per questo obbiettivo si usa semplicemente una matrice: <br>
 <img src="IMG/1.png" alt="Matrice" height="250" width="250"> 
-<p> Per renderlo dinamica (cosi da permettere un cambio 
-di size) si inizializza un puntatore a puntatori di char, char invece che bool, cosi, permettendo più stati oltre a 0 o 1, tanto il loro sizeof()
+<p> Per renderla dinamica (cosi da permettere un cambio 
+di size) si inizializza un puntatore a puntatori di char; char invece che bool permettendo cosi più stati oltre a 0 o 1, tanto il loro sizeof()
  è lo stesso. </p> <br>
  <p> Adesso avendo una griglia il prossimo step è trovare un modo per passare ad una generazione seguente, possibilmente con un metodo che renda
  il canvas circa infinito come il gioco vero dovrebbe essere evitando di creare una seconda matrice temporanea cosi da risparmiare memoria.

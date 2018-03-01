@@ -15,18 +15,19 @@
 
 <div class="page">
 <pre class="prettyprint SlideIMG">
-/* 
-Visitare alexnett.github.io/PAGES/GOL/GOL.html per documentazione
-  ▀ ▀               
- ▀▄▄▄▀
-*/
-
 #include <iostream>
 #include <windows.h>
 #include <process.h>
 #include <string>
 #include <conio.h>
 using namespace std;
+
+/*
+Visitare alexnett.github.io/PAGES/GOL/GOL.html per documentazione
+ ▀ ▀
+▀▄▄▄▀
+*/
+
 #define DARKGRAY SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 8);
 #define LIGHTRED SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 12);
 #define YELLOW SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
@@ -40,12 +41,13 @@ using namespace std;
 #define CB char(254) // BIG CUBE | ALIVE CELL 
 #define NN char(250) // SMALL CUBE | DEAD CELL
 
-int x = -1;
-int y = -1;
-int ROWS = 15;
-int COLS = 15;
-char** cWorld;
+int x = -1; // cordinate
+int y = -1; // cordinate
+int ROWS = 15; // quantità di righe nel canvas
+int COLS = 15; // quantità di colonne nel canvas
+char** cWorld; // canvas
 
+// Start screen
 void CMD_re_start(bool first)
 {
 	system("cls");
@@ -53,12 +55,14 @@ void CMD_re_start(bool first)
 	if (first) { WHITE cout << "Type ["; LIGHTRED cout << "?"; WHITE cout << "] for command list. \n\n"; }
 }
 
+// Prima dell'input stampare un '>'
 void CMD_input(char &c)
 {
 	YELLOW cout << ">";
 	WHITE cin >> c;
 }
 
+// lista comandi
 void help()
 {
 	LIGHTRED cout << "\n Net's Corway's game of life - v4.min\n\n";
@@ -73,6 +77,7 @@ void help()
 	cout << " ["; LIGHTRED cout << "q"; WHITE cout << "]     Exits \n\n";
 }
 
+// stampa in modo leggibile il canvas
 void print_canvas()
 {
 	YELLOW cout << TL;
@@ -97,6 +102,7 @@ void print_canvas()
 	cout << HL << BR << endl;
 }
 
+// modalità disegno
 void draw()
 {
 	system("cls");
@@ -127,12 +133,14 @@ void draw()
 	}
 }
 
+// liberare memoria occupata dalla matrice
 void free()
 {
 	for (int i = 0; i < ROWS; ++i) { delete[] cWorld[i]; }
 	delete[] cWorld;
 }
 
+// allocare memoria con la matrice
 void allocate()
 {
 	cWorld = new char*[ROWS];
@@ -140,6 +148,7 @@ void allocate()
 	for (int i = 0; i < ROWS; i++) { for (int j = 0; j < COLS; j++) { cWorld[i][j] = 0; } }
 }
 
+// cambiare size del canvas
 void set_size()
 {
 	free();
@@ -148,6 +157,7 @@ void set_size()
 	allocate();
 }
 
+// funzione che ritorna quante celle vive sono adiacenti a quella nelle cordinate passate per parametro
 int alive_near_ammount(int i, int j)
 {
 	int iConta = 0;
@@ -163,6 +173,7 @@ int alive_near_ammount(int i, int j)
 	return iConta;
 }
 
+//  azioni per raggiungere una prossima generazione
 void logic()
 {
 	int nAdiacenti = 0;
@@ -182,6 +193,7 @@ void logic()
 
 }
 
+// stampa continua del canvas e effetuamento della logica cosi da vedere ogni passo delle generazioni
 void work(void* n)
 {
 	int generation = 0;
@@ -194,13 +206,14 @@ void work(void* n)
 		WHITE cout << " ["; LIGHTRED cout << "ESC"; WHITE cout << "]     quit simulation \n\n";
 		WHITE cout << " Generation: ["; LIGHTRED cout << generation; WHITE cout << "]";
 		while (stop != false) { if (stop == 'q') { return; } }
-		Sleep(150);
+		Sleep(50);
 		logic();
 		generation++;
 		system("cls");
 	}
 }
 
+// modalità simulazione
 void canvas()
 {
 	system("cls");
@@ -221,76 +234,7 @@ void canvas()
 	}
 }
 
-int main()
-{
-	char cOption;
-	allocate();
-	CMD_re_start(true);
-	while (true)
-	{
-		CMD_input(cOption);
-		switch (cOption)
-		{
-		case '?': help(); break;
-		case 'd': draw(); break;
-		case 'z': set_size(); break;
-		case 's': canvas(); break;
-		case 'q': free(); return 0;
-		}
-	}
-}
-</pre>
-</div>
-
-<br><br>
-<div class="page">
-<p class="sep" style="margin-top: 0px"> Documentazione: <p>
-
-<p>
-The "Game of life" è un semplice gioco di simulazione senza una situazione di vittoria. <br>
-Il gioco avviene in una griglia preferibilmente infinita con una situazione iniziale di celle con ogniuna 2 possibili stati:
- "vivo" o "morto" che cambieranno a seconda di alcune regole ogni generazione. <br> <br>
-Le regole:
-</p>
-<ul style="margin-left: 10ex">
-	<li> Se presenti meno di 2 o più di 3 celle vive accanto questa muore</li>
-	<li> Se presenti 2 o 3 celle vive accanto questa prosegue nella prossima generazione</li>
-	<li> Se presenti 3 esatti di vicini ad una cella morta, questa nasce</li>
-</ul>
-
-<p class="sep"> Variabili globali: <p>
-<pre class="prettyprint" >
-int x = -1; 	// Cordinate
-int y = -1; 	// Cordinate
-int ROWS = 15;	// Quantità di righe del canvas
-int COLS = 15;	// Quantità di Colonne del canvas
-char** cWorld;	// Matrice
-</pre>
-
-<p class="sep"> Funzioni: <p>
-<pre class="prettyprint" >
-int Main()
-void Allocate()
-void Free()
-void Set_size()
-void print_canvas()
-void draw()
-void canvas()
-void work(void* n)
-void logic()
-int near_alive_ammount(int y, int x)
-</pre>
-<p class="desc"> 
-<b class="tit"> <i> Main(): </b> </i> <br>
-<b>Obbiettivo:</b> <br>
-	Inizializare la matrice con size di default, in segutio per tutta la
-	durata del programma prendere in input dei valori attribuiti a delle 
-	funzioni che verranno eseguite. <br>
-<b>Return:</b> <br>
-	0 se uscito correttamente.
-<p>
-
-<pre class="prettyprint SlideIMG">
+// interfaccia dei comandi
 int main()
 {
 	char cOption;

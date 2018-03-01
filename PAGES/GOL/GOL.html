@@ -258,6 +258,30 @@ int main()
 
 <div class="page" style="margin-top: 50px">
 
+<p class="sep" style="margin-top: 0">Game of life:</p>
+<p>
+"il gioco della vita" è un semplice gioco senza una situazione di vittoria, il gioco prende luogo su una griglia
+preferibilmente infinita con ogni cella avente due possibili stati: "viva" o "morta", questo stato cambierà a seconda di alcune regole ogni
+generazione.
+</p>
+<br>
+<pre>
+Regole:
+	Una cella vive solo se ha 2 o 3 celle vicine vive, altrimenti muore.
+	Una cella nasce se ha esattamente 3 celle vive accanto.
+</pre>
+<br>
+
+<p class="sep">Variabili globali</p>
+<pre>
+int x;			// Cordinata
+int y; 			// Cordinata
+int ROWS 		// Quantità di righe nella griglia
+int COLS 		// Quantità di colonne nella griglia
+char** cWorld 	// Matrice dinamica | Griglia
+</pre>
+
+<p class="sep">Funzioni:</p>
 <p class="desc"> 
 <b class="tit"> <i> Allocate(): </b> </i> <br>
 <b>Obbiettivo:</b> <br>

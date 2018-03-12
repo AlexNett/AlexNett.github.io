@@ -14,8 +14,75 @@
 
 <div class="page">
 
-<img class="SlideIMG" src="IMG\ma.png" alt="main"></img> <br>
-<img class="SlideIMG" src="IMG\thr.png" alt="main"></img>
+<i>ThreadRaceCondition.java</i>
+<pre class="prettyprint SlideIMG">
+package thread.race.condition;
+public class ThreadRaceCOndition {
+    public static void main(String[] args) {
+        
+        int x [] = {0};
+        
+        Runnable RUN = new _Thread(x);
+        
+        Thread THR [] = {
+            new Thread(RUN),
+            new Thread(RUN),
+            new Thread(RUN),
+            new Thread(RUN),
+            new Thread(RUN)
+        };
+        
+        for(int i = 0; i < 5; i++) {THR[i].setName("THR " + i);}
+        
+        for(int i = 0; i < 5; i++) {THR[i].start();}
+        
+        try {
+        for(int i = 0; i < 5; i++) {THR[i].join();}
+        } catch (InterruptedException e) {}
+        
+        System.out.println(x[0]);
+    }    
+}
+</pre>
+
+<i>_Thread.java</i>
+<pre class="prettyprint SlideIMG">
+package thread.race.condition;
+public class _Thread implements Runnable {
+    
+    private boolean sem = true;
+    int x [];
+    
+    public _Thread(int x []) { this.x = x; }
+    
+    private void increment(int x []) 
+    { 
+        lock();
+        x[0]++;
+        unlock();
+    }
+    
+    private synchronized void lock()
+    {
+        while (sem == false)
+        {
+            Thread.currentThread().yield();
+        }
+        sem = false;
+    }
+    
+    private synchronized  void unlock()
+    {
+        sem = true;
+    }
+    
+    @Override
+    public void run() { 
+        for(int i = 0; i < 10000; i++) { increment(x); }
+        System.out.println( Thread.currentThread().getName() );
+    }
+}
+</pre>
 
 </div>
 

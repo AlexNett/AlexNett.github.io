@@ -1,0 +1,54 @@
+<html>
+<head>
+<link rel="icon" type="image/png" href="../../../../Demos/logo.png">
+<title>Race Condition</title>
+<link rel="stylesheet" type="text/css" href="../../../../Demos/Header.css">
+<link rel="stylesheet" type="text/css" href="css.css">
+</head>
+<body>
+
+<div class="menu"> <pre class="menu" > <a class="menu" href="../../../../PAGES/AboutMe/AboutMe.html">About-me</a> | <a class="menu" href="../../../../index.html">Homepage</a> | <a class="menu" href="../../../../PAGES/Archive/Archive.html">Archive</a> </pre> </div>
+<h1 class="title">Singleton</h1>
+<h5 class="subtitle"></h5>
+<br />
+
+<div class="page">
+<p class="sep" style="margin-top:0">Scopo</p>
+<p> Permettere ad una classe di avere solo una istanza</p>
+
+<p class="sep">Code</p>
+<pre class="prettyprint SlideIMG">
+public class Singleton {
+    private static Singleton istanza = null;
+	
+    private Singleton() {}
+
+    public static synchronized Singleton getSingleton() {
+        if (istanza == null) {
+            istanza = new Singleton();
+        }
+        return istanza;
+    }
+}
+</pre>
+
+<p class="sep">Come</p>
+<p> La classe contiene solo un metodo che funge da costruttore mentre il vero costruttore è privato, quindi effettivamente rendendo impossibile istanziare l'oggetto al difuori dalla classe stessa,
+ dato il metodo è statico può essere richiamato facendo una reference alla classe
+invece che ad un oggetto... Quello che succedere è che se richiamata la prima volta la classe inizializerà un oggetto di se stesso, dato può accedere al costruttore, se richiamata 
+una seconda volta il metodo ritornerà questo oggetto.</p>
+</div>
+
+<script src="../../../../Demos/jquery-3.3.1.min.js"></script>
+<script src="../../../../Demos/HideIMG.js"></script>
+<script src="js.js"></script>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+
+</body>
+</html>

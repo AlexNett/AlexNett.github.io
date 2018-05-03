@@ -1,0 +1,28 @@
+table{
+	margin: 0 auto;
+}
+
+td{
+		padding: 5px;
+}
+
+.row {
+	font-size: 125%;
+}
+
+.row:nth-child(odd) {
+	background-color: #e63535;
+}
+
+.row:nth-child(even){
+	background-color: #d52424;
+}
+
+a{
+	text-decoration: none;
+	color: white;
+}
+
+a:hover {
+	color: #dddddd;
+}

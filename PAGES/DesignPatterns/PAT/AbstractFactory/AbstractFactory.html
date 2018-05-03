@@ -1,0 +1,89 @@
+<html>
+<head>
+<link rel="icon" type="image/png" href="../../../../Demos/logo.png">
+<title>Race Condition</title>
+<link rel="stylesheet" type="text/css" href="../../../../Demos/Header.css">
+<link rel="stylesheet" type="text/css" href="css.css">
+</head>
+<body>
+
+<div class="menu"> <pre class="menu" > <a class="menu" href="../../../../PAGES/AboutMe/AboutMe.html">About-me</a> | <a class="menu" href="../../../../index.html">Homepage</a> | <a class="menu" href="../../../../PAGES/Archive/Archive.html">Archive</a> </pre> </div>
+<h1 class="title">Abstract factory</h1>
+<h5 class="subtitle"></h5>
+<br />
+
+<div class="page">
+<p class="sep" style="margin-top:0">Scopo</p>
+<p> Chiamando una factory insieme ad un valore usato come input sarà restituito un oggetto a seconda di questo input</p>
+
+<p class="sep">Code</p>
+<pre class="prettyprint SlideIMG">
+//Creazione di un interface, obbligo a qualunque classe lo implementa di averlo.
+package abstractfactory;
+public interface Game {
+    public void print();
+}
+
+//Main, crea un oggetto "Game", questo oggetto avrà per forza il metodo Print(),
+// per questo sarà utilizabile.
+package abstractfactory;
+public class AbstractFactory {
+    public static void main(String[] args) {
+        
+        Game X = GameFactory.CreateGame("Lego");
+        X.print();
+    }    
+}
+
+// Creazione di un giocattolo Robot
+package abstractfactory;
+public class Robot implements Game{
+    @Override
+    public void print() {System.out.println("Robot!");}
+}
+
+// Creazione di un giocattolo Lego
+package abstractfactory;
+public class Lego implements Game{
+    @Override
+    public void print() {System.out.println("Lego!");}
+}
+
+// L'Abstract factory, una classe abstract quindi non inizializabile, 
+// quello usabile è il metodo, che restituirà a seconda del input un diverso oggetto. 
+package abstractfactory;
+public abstract class GameFactory {
+    public static Game CreateGame(String Game)
+    {
+        if(Game == "Lego"){return new Lego();}
+        else if(Game == "Robot"){return new Robot();}
+        return null;
+    }
+}
+
+</pre>
+
+<p class="sep">Come</p>
+<p> Partiamo da qualche presupposto: Un interfaccia obbliga una classe che la implementa ad avere quei metodi per forza, invece una classe abstract 
+non permette la inizializazione di quella classe, possiamo accedere ai metodi se resi statici.
+<br>
+Sapendo questo possiamo creare la "abstract factory"...
+<br>
+Si chiama abstract factory difatti perchè la classe "fabbrica" che l'utilizza è "abstract", cioè non si può inizializare, ma ha dei metodi statici che ritornano un 
+oggetto che implementa un interfaccia... Questa interfaccia nel main verrà richiamata e l'interfaccia che è stata resituita ha i metodi che sono stati obbligatoriamente
+implementati dall'interfaccia, che sono utilizabili. </p>
+</div>
+
+<script src="../../../../Demos/jquery-3.3.1.min.js"></script>
+<script src="../../../../Demos/HideIMG.js"></script>
+<script src="js.js"></script>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+
+</body>
+</html>

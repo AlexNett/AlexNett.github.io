@@ -1,0 +1,231 @@
+<html>
+<head>
+<link rel="icon" type="image/png" href="../../../../Demos/logo.png">
+<title>Observer</title>
+<link rel="stylesheet" type="text/css" href="../../../../Demos/Header.css">
+<link rel="stylesheet" type="text/css" href="css.css">
+</head>
+<body>
+
+<div class="menu"> <pre class="menu" > <a class="menu" href="../../../../PAGES/AboutMe/AboutMe.html">About-me</a> | <a class="menu" href="../../../../index.html">Homepage</a> | <a class="menu" href="../../../../PAGES/Archive/Archive.html">Archive</a> </pre> </div>
+<h1 class="title">Observer</h1>
+<h5 class="subtitle"></h5>
+<br />
+
+<div class="page">
+<p class="sep" style="margin-top:0">Scopo</p>
+<p>Avere un oggetto che avverte altri oggetti interesati in un qualcosa di un cambiamento in questo qualcosa</p>
+
+<p class="sep">Code</p>
+<p> Raw Code </p>
+<pre class="prettyprint SlideIMG" style="font-family: Lucida Console; font-size: 60%;">
+public interface Observer {
+    public void Update();
+}
+
+public interface Observable {
+    public void addObserver(Observer...obs);
+    public void removeObserver(Observer obs);
+    public void NotifyObservers();
+}
+
+import java.util.*;
+public class Subject implements Observable{
+    ArrayList<Observer> Observers;
+    public Subject() { Observers = new ArrayList<>(); }
+    
+    public void addObserver(Observer...obs) 
+    { Observers.addAll(Arrays.asList(obs)); System.out.println("Aggiunto Observer"); }
+    public void removeObserver(Observer obs) 
+    { Observers.remove(obs); System.out.println("Rimosso Observer");}
+    public void NotifyObservers() 
+    { for( Observer obs : Observers ) { obs.Update(); } }
+    
+    public void Change(String Name)
+    {
+        System.out.println("Effettuato un cambiamento al CONTAINER (" + Name + ")");
+        CONTAINER.Name = Name;
+        NotifyObservers();
+    }
+}
+
+public class ConcreateObserverA implements Observer{
+    private String Name;
+    public ConcreateObserverA(String Name) {this.Name = Name;}
+    
+    public void Update() 
+    { System.out.println(
+            "\u001B[31m" + Name + "\u001B[0m" + 
+            " Noticed CONTAINER's name is: " +
+            "\u001B[35m" + CONTAINER.Name + "\u001B[0m" +
+            " and he likes it "
+    ); }
+}
+
+public class ConcreateObserverB implements Observer{
+    private String Name;
+    public ConcreateObserverB(String Name) {this.Name = Name;}
+    
+    public void Update() 
+    { System.out.println(
+            "\u001B[32m" + Name + "\u001B[0m" + 
+            " Noticed CONTAINER's name is: " +
+            "\u001B[35m" + CONTAINER.Name + "\u001B[0m" +
+            " But he dislikes it "
+    ); }
+}
+
+package DP.OBSERVER;
+public class CONTAINER {
+    public static String Name = "X";   
+}
+
+public class OBS {
+    public static void sep() 
+	{ System.out.println("\u001B[33m"+"."+"\u001B[0m"); } // separator
+    public static void main(String[] args) {
+        
+        
+        Observer A = new ConcreateObserverA("A"); // Creazione di ConcrateObservers A
+        Observer B = new ConcreateObserverB("B"); // Creazione di ConcrateObservers B
+        Subject X = new Subject(); // Creazione di Observable X
+        
+        sep(); X.addObserver(A, B); // Aggiunta di un A & B all'arraylist del X
+        
+        sep(); X.NotifyObservers();    // Richiamo metodo Update() degli Observers nell'arraylist
+        sep(); X.Change("Y");          // Cambiato il nome in CONTAINER, automaticamente avverte Observers
+        sep(); X.Change("Z");          // Cambiato il nome in CONTAINER, automaticamente avverte Observers
+        
+        sep(); X.removeObserver(B); // Rimozione dall'arraylist di un Observer
+        
+        sep(); X.Change("#");   // Cambiato il nome in CONTAINER, automaticamente avverte Observers
+        
+        sep();
+    }
+}
+</pre>
+<p> Interfaccia Observer </p>
+<pre class="prettyprint SlideIMG">
+public interface Observer {
+    public void Update();
+}
+</pre>
+<p> Interfaccia Observable </p>
+<pre class="prettyprint SlideIMG">
+public interface Observable {
+    public void addObserver(Observer...obs);
+    public void removeObserver(Observer obs);
+    public void NotifyObservers();
+}
+</pre>
+<p> Creazione di un Observable </p>
+<pre class="prettyprint SlideIMG">
+import java.util.*;
+public class Subject implements Observable{
+    ArrayList<Observer> Observers;
+    public Subject() { Observers = new ArrayList<>(); }
+    
+    public void addObserver(Observer...obs) 
+    { Observers.addAll(Arrays.asList(obs)); System.out.println("Aggiunto Observer"); }
+    public void removeObserver(Observer obs) 
+    { Observers.remove(obs); System.out.println("Rimosso Observer");}
+    public void NotifyObservers() 
+    { for( Observer obs : Observers ) { obs.Update(); } }
+    
+    public void Change(String Name)
+    {
+        System.out.println("Effettuato un cambiamento al CONTAINER (" + Name + ")");
+        CONTAINER.Name = Name;
+        NotifyObservers();
+    }
+}
+</pre>
+<p> Creazione di un Observer A</p>
+<pre class="prettyprint SlideIMG">
+public class ConcreateObserverA implements Observer{
+    private String Name;
+    public ConcreateObserverA(String Name) {this.Name = Name;}
+    
+    public void Update() 
+    { System.out.println(
+            "\u001B[31m" + Name + "\u001B[0m" + 
+            " Noticed CONTAINER's name is: " +
+            "\u001B[35m" + CONTAINER.Name + "\u001B[0m" +
+            " and he likes it "
+    ); }
+}
+</pre>
+<p> Creazione di un Observer B</p>
+<pre class="prettyprint SlideIMG">
+public class ConcreateObserverB implements Observer{
+    private String Name;
+    public ConcreateObserverB(String Name) {this.Name = Name;}
+    
+    public void Update() 
+    { System.out.println(
+            "\u001B[32m" + Name + "\u001B[0m" + 
+            " Noticed CONTAINER's name is: " +
+            "\u001B[35m" + CONTAINER.Name + "\u001B[0m" +
+            " But he dislikes it "
+    ); }
+}
+</pre>
+<p> Creazione di quel "qualcosa", in questo caso un container</p>
+<pre class="prettyprint SlideIMG">
+package DP.OBSERVER;
+public class CONTAINER {
+    public static String Name = "X";   
+}
+</pre>
+<p> Main</p>
+<pre class="prettyprint SlideIMG">
+public class OBS {
+    public static void sep() 
+	{ System.out.println("\u001B[33m"+"."+"\u001B[0m"); } // separator
+    public static void main(String[] args) {
+        
+        
+        Observer A = new ConcreateObserverA("A"); // Creazione di ConcrateObservers A
+        Observer B = new ConcreateObserverB("B"); // Creazione di ConcrateObservers B
+        Subject X = new Subject(); // Creazione di Observable X
+        
+        sep(); X.addObserver(A, B); // Aggiunta di un A & B all'arraylist del X
+        
+        sep(); X.NotifyObservers();    // Richiamo metodo Update() degli Observers nell'arraylist
+        sep(); X.Change("Y");          // Cambiato il nome in CONTAINER, automaticamente avverte Observers
+        sep(); X.Change("Z");          // Cambiato il nome in CONTAINER, automaticamente avverte Observers
+        
+        sep(); X.removeObserver(B); // Rimozione dall'arraylist di un Observer
+        
+        sep(); X.Change("#");   // Cambiato il nome in CONTAINER, automaticamente avverte Observers
+        
+        sep();
+    }
+}
+</pre>
+
+<p class="sep"> Images </p>
+<img src="IMG/OBS.png" alt="OBS">
+
+<p class="sep"> Spiegazione </p>
+<p>
+Il programma consiste in 1 "subject" che implementa l'interfaccia "observable" e 2 "concrateObservers" che implementano "observer"...
+ di cui Subject ha un arraylist contenente chi lo sta guardando ( observers ) ed è lunico che può modificare cio a cui gli observer sono interessati ( un container ),
+ quindi Subject cambiando il container notifichera tutti gli osservatori del cambiamento, e si adattano.
+</p>
+</div>
+
+
+<script src="../../../../Demos/jquery-3.3.1.min.js"></script>
+<script src="../../../../Demos/HideIMG.js"></script>
+<script src="js.js"></script>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+
+</body>
+</html>

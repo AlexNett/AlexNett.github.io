@@ -39,6 +39,7 @@ body{
 	margin: 50px 0px;
 	max-width: 90%;
 	padding: 25px;
+	min-width: 230px;
 }
 
 #page .page{

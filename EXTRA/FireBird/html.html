@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+		<link rel="stylesheet" type="text/css" href="main.css">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+		<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet'>
+	</head>
+<body>
+
+
+
+                        <div  class="alert alert-success">
+						Test
+                        </div>
+
+<div id="page">
+
+<form class="form-signin" action="oauth2callback.php" method="POST">
+						<header><img src="resources/logo.png"></img></header>
+
+						<div class="pageTitle">
+                        <input type="hidden" name="page" value="login">
+                        <input type="hidden" name="dologin" value="1">
+                        <!--[TITLE_START]-->
+                        <div class="header header-info"><!--[TITLETEXT_START]-->EFFETTUA IL LOGIN<!--[TITLETEXT_END]--></div>
+                        <!--[TITLE_END]-->
+						</div>
+						<hr>
+						<div class="page">
+                        <!--[SUCCESS_START]-->
+                        <div class="alert alert-success centered">
+                            <!--[SUCCESSTEXT_START]-->LOGIN EFFETTUATO CON SUCCESSO<!--[SUCCESSTEXT_END]-->
+                        </div>
+                        <!--[SUCCESS_END]-->
+                        <!--[FAIL_START]-->
+                        <div class="alert alert-danger centered">
+                            <!--[FAILTEXT_START]-->USERNAME O PASSWORD ERRATI<!--[FAILTEXT_END]-->
+                        </div>
+                        <!--[FAIL_END]-->
+                        </div>
+						<hr>
+						<div class="page">
+                        <!--[INFO_START]-->
+                        <div class="text-box text-box-info">
+                            <!--[INFOTEXT_START]--><pre>IP: 10.101.96.24
+E-Mail: studente.meucci@itismeucci.com
+Nome: studente meucci
+Connesso il : 09/02/2018 09:54:25
+</pre><!--[INFOTEXT_END]-->
+                        </div>
+                        <!--[INFO_END]-->
+                        
+                        <div class="text-box text-box-warning">
+                        Certificato del <span style="color: orange">Firewall</span>: 
+						<ul class="link">
+						<li onclick="location.href='cert.der'">PC</li>
+						<li onclick="location.href='cert.pem'">Android</li>
+						</ul>
+                        </div>
+                        
+						</div>
+						<hr>
+						<div class="pageButton">
+						
+                        <!--[LOGINBTN_START]-->
+                        <div onclick="location.href='?dologin'" class="button">
+                            <table></tr><td class="img" ><img src="resources/g-logo.png"></img></td><td class="text"><span>Accedi</span></td></tr></table>
+                        </div>
+                        <!--[LOGINBTN_END]-->
+                        <!--[LOGOUTBTN_START]-->
+                        <div onclick="location.href='?dologout'" class="button">
+                            <table></tr><td class="img" ><img src="resources/g-logo.png"></img></td><td class="text"><span>Disconnetti</span></td></tr></table>
+                        </div>
+                        <!--[LOGOUTBTN_END]-->
+                    </form>
+					</div>
+</div>
+<img id="logo-background" src="resources/Logo.png"></img>
+<script src="main.js"></script>
+</body>
+</html>

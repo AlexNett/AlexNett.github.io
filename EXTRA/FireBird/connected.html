@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+		<link rel="stylesheet" type="text/css" href="main.css">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+		<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet'>
+	</head>
+<body>
+
+<div  class="alert alert-success">
+</div>
+
+<div id="page">
+<form class="form-signin" action="oauth2callback.php" method="POST">
+						<header><img src="resources/logo.png"></img></header>
+						<div class="pageTitle">
+                        <input type="hidden" name="page" value="login">
+                        <input type="hidden" name="dologin" value="1">
+                        <!--[TITLE_START]-->
+                        <div class="header header-info"><!--[TITLETEXT_START]-->Stato connessione<!--[TITLETEXT_END]--></div>
+                        <!--[TITLE_END]-->
+						
+						</div>
+						<hr>
+						<div class="page">
+						
+						
+						<hr>
+						<div class="pageButton">
+                        <!--[LOGOUTBTN_START]-->
+                        <div onclick="location.href='?dologout'" class="button">
+                            <table></tr><td class="img" ><img src="resources/g-logo.png"></img></td><td class="text"><span>Disconnetti</span></td></tr></table>
+                        </div>
+                        <!--[LOGOUTBTN_END]-->
+						
+                       <!--[INFO_START]-->
+                        <div class="text-box text-box-info">
+							
+							<div id="toggle"><i class="fas fa-chevron-down"></i></div>
+                            <table id="infoTable">
+							<!--[INFOTEXT_START]-->
+							<tr><th>E-Mail:</th><td>nettenbreije.alexander@itismeucci.com</td></tr>
+							<tr><th>Nome:</th><td>Alexander Nettenbreijers</td></tr>
+							<tr><th>IP:</th><td>172.16.5.217</td></tr>
+							<tr><th>Connesso alla rete:</th><td>Rete Cablata</td></tr>
+							<tr><th>Gruppo di appartenenza:</td><td>Studenti</td></tr>
+							<tr><th>Connesso il:</th><td>10/04/2019 08:19:16</td></tr>
+							<tr><th>Dati Ricevuti:</th><td>6.07 MB</td></tr>
+							<tr><th>Dati Inviati:</th><td>749.75 KB</td></tr>
+							<tr><th>Velocit&agrave; media Download:</th><td>1.21 KB/sec</td></tr>
+							<tr><th>Velocit&agrave; media Upload:</th><td>400.88 B/sec</td></tr>
+							
+							<!--[INFOTEXT_END]-->
+							</table>
+                        </div>
+                        <!--[INFO_END]-->
+                        
+						</div>
+					</div>
+					
+                    </form>
+</div>
+<img id="logo-background" src="resources/Logo.png"></img>
+<script src="main.js"></script>
+<script src="TableToggle.js"></script>
+</body>
+</html>

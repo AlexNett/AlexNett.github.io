@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+		<link rel="stylesheet" type="text/css" href="main.css">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+		<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet'>
+	</head>
+<body>
+
+                        <div  class="alert alert-success">
+                        </div>
+
+<div id="page">
+<form class="form-signin" action="oauth2callback.php" method="POST">
+						<header><img src="resources/logo.png"></img></header>
+
+						<div class="pageTitle">
+                        <input type="hidden" name="page" value="login">
+                        <input type="hidden" name="dologin" value="1">
+                        <!--[TITLE_START]-->
+                        <div class="header header-info"><!--[TITLETEXT_START]-->Effettua il login<!--[TITLETEXT_END]--></div>
+                        <!--[TITLE_END]-->
+						</div>
+						
+						<div class="page">
+						
+                        <div class="text-box text-box-warning">
+                        Certificato del Firewall: 
+						<div class="link">
+						<div onclick="location.href='cert.der'"><i class="fas fa-file-download"></i></div>
+						</div>
+                        </div>
+						<div onclick="showPopUpDownloader()" id="mirror">Mirror</div>
+                        
+						</div>
+						
+						<hr>
+						<div class="pageButton">
+                         <!--[LOGINBTN_START]-->
+                        <div onclick="location.href='?dologin'" class="button">
+                            <table></tr><td class="img" ><img src="resources/g-logo.png"></img></td><td class="text"><span>Accedi</span></td></tr></table>
+                        </div>
+                        <!--[LOGINBTN_END]-->
+						</div>
+						
+                    </form>
+</div>
+						
+<img id="logo-background" src="resources/Logo.png"></img>
+<script src="main.js"></script>
+<script src="getOS.js"></script>
+<script src="DownloaderPopUp.js"></script>
+</body>
+</html>

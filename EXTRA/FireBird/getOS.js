@@ -20,3 +20,20 @@ function getOS() {
 
   return os;
 }
+
+var download = document.getElementById("download");
+var os = getOS();
+var cert = "";
+
+if(os == "Windows") { cert = certDer; }
+else if(os == "Android") { cert = certPem; }
+
+download.onclick = cert
+
+function certDer(){
+        window.location='cert.der';
+}
+
+function certPem(){
+        window.location='cert.pem';
+}

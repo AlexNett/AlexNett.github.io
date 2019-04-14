@@ -37,9 +37,9 @@ body{
 	box-shadow: 0px 5px 5px -2px rgba(217,217,217,1);
 	border-radius: 6px;
 	margin: 50px 0px;
-	max-width: 25%;
+	max-width: 75%;
 	padding: 25px;
-	min-width: 230px;
+	min-width: 275px;
 }
 
 #page .page{
@@ -399,6 +399,14 @@ header img:hover{
 	transform: translate(-50%, 0%); 
 	border-bottom: 1px solid #89bcef;
 	box-shadow: 0px 5px 3px -5px #89bcef;
+}
+
+#tableDenied{
+	
+	width: 100%;
+	background-color: white;
+	
+	border-radius: 7.5px;
 }
 
 hr {
